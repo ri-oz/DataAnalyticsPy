@@ -88,3 +88,32 @@ dfmylist = pd.DataFrame(mylist)
 
 adw_list = dfmylist[0].tolist()
 # %%
+
+
+def get_ZemePrice(url):
+    
+    response = requests.get(url)
+    soup_adv_text_html = BeautifulSoup(response.text, 'html.parser')
+    price_detail_soup = soup_adv_text_html.find(id="tdo_8")
+    
+    if price_detail_soup == None:
+         adv_price = "NA"
+    else:
+        adv_price = price_detail_soup.get_text()
+        
+    return adv_price
+
+
+
+
+# %%
+
+soup_adv_text_html = BeautifulSoup(response.text, 'html.parser')
+model_detail_soup = soup_adv_text_html.find(id="tdo_8")
+model_detail_soup.get_text()
+
+
+# %%
+
+get_ZemePrice("https://www.ss.lv/msg/lv/real-estate/plots-and-lands/dobele-and-reg/dobele/bbohx.html")
+# %%
