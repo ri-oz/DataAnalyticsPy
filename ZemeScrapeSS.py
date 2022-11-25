@@ -14,10 +14,10 @@ def getUrlList(url, prefix='https://www.ss.com', postfix='sell/', tag='a', class
     req = requests.get(url)
     if req.status_code != 200:
         print(f'Unexpected status code {req.status_code}. Stopping parse')
-        return [] #return early and often principle
-    soup = BeautifulSoup(req.text, 'lxml') # could skip soup variable as well but keeping for readability
+        return [] 
+    soup = BeautifulSoup(req.text, 'lxml')
     return [ prefix + el['href'] + postfix for el in soup.find_all(tag, class_) ]
-    # What else could we pass as argument? How could our return fail?
+    
     
 
 def processRow(row, baseurl='https://www.ss.com'):
@@ -72,8 +72,6 @@ def processPages(urls):
 
 url = "https://www.ss.lv/lv/real-estate/plots-and-lands/"
 
-
-# %%
 
 mylist = processPages(getUrlList(url))
 
@@ -183,7 +181,7 @@ def get_datums(url):
 
 
 
-# %%
+
 Price_list = [get_ZemePrice(i) for i in adw_list]
 Iela_list = [get_ZemeIela_nosaukums(i) for i in adw_list]
 Pilseta_list = [get_ZemePilseta(i) for i in adw_list]
@@ -193,4 +191,15 @@ dates_list = [get_datums(i) for i in adw_list]
 Knumurs_list = [get_ZemeKnumurs(i) for i in adw_list]
 
 
+adv_detalas_dictfromlist = {'Link': adw_list, 'Pilseta': Pilseta_list, 'Iela':Iela_list, 'Platiba': Platiba_list, 'Cena': Price_list, 'Zemes Tips': Pielietojums_list, 'Zemes Numurs':Knumurs_list, 'Datums':dates_list}
+
+df_zeme = pd.DataFrame(adv_detalas_dictfromlist)
+
+
 # %%
+
+df_zeme.to_excel(r"C:\Users\rioz\Desktop\DataAnalytics\df_zeme_SS.xlsx")
+
+
+# %%
+
