@@ -184,37 +184,13 @@ def get_datums(url):
 
 
 # %%
-
-get_datums("https://www.ss.lv/msg/lv/real-estate/plots-and-lands/dobele-and-reg/dobele/bbohx.html")
+Price_list = [get_ZemePrice(i) for i in adw_list]
+Iela_list = [get_ZemeIela_nosaukums(i) for i in adw_list]
+Pilseta_list = [get_ZemePilseta(i) for i in adw_list]
+Pielietojums_list = [get_ZemePielietojums(i) for i in adw_list]
+Platiba_list = [get_Zemeplatiba(i) for i in adw_list]
+dates_list = [get_datums(i) for i in adw_list]
+Knumurs_list = [get_ZemeKnumurs(i) for i in adw_list]
 
 
 # %%
-
-
-
-odel_list = []
-year_list = []
-transm_list = []
-btyp_list = []
-color_list = []
-price_list = []
-motor_list = []
-milige_list = []
-link_list = addlist_new
-apriko_list = []
-seats_list = []
-dates_list = []
-
-
-for items in addlist_new:
-    
-    response = requests.get('https://www.ss.com/msg/lv/transport/cars/dacia/'+str(items))
-    soup_adv_text_html = BeautifulSoup(response.text, 'html.parser')
-    model_detail_soup = soup_adv_text_html.find(id="tdo_31")
-    
-    if model_detail_soup == None:
-         adv_model = "NA"
-    else:
-        adv_model = model_detail_soup.get_text()
-    
-    model_list.append(adv_model)
