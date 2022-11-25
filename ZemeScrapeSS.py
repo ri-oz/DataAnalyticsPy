@@ -173,14 +173,48 @@ def get_ZemeIela_nosaukums(url):
 
 
 
-def getAdvertDetails(url):
-    adv_detalas_dict = {'Pileta': get_ZemePilseta(url), 'Price':get_ZemePrice(url), 'Platiba': get_Zemeplatiba(url), 'Zemes Tips': get_ZemePielietojums(url), 'Lokacija': get_ZemeIela_nosaukums(url), 'K-Numurs':get_ZemeKnumurs(url)}
-    return adv_detalas_dict
+def get_datums(url):
+    
+    response = requests.get(url)
+    soup_adv_text_html = BeautifulSoup(response.text, 'html.parser')
+    datums_detail_soup = soup_adv_text_html.findAll(text=re.compile('Datums:'))
+        
+    return datums_detail_soup
 
 
-#%%
+
+# %%
+
+get_datums("https://www.ss.lv/msg/lv/real-estate/plots-and-lands/dobele-and-reg/dobele/bbohx.html")
+
+
+# %%
 
 
 
-getAdvertDetails("https://www.ss.lv/msg/lv/real-estate/plots-and-lands/dobele-and-reg/dobele/bbohx.html")
+odel_list = []
+year_list = []
+transm_list = []
+btyp_list = []
+color_list = []
+price_list = []
+motor_list = []
+milige_list = []
+link_list = addlist_new
+apriko_list = []
+seats_list = []
+dates_list = []
 
+
+for items in addlist_new:
+    
+    response = requests.get('https://www.ss.com/msg/lv/transport/cars/dacia/'+str(items))
+    soup_adv_text_html = BeautifulSoup(response.text, 'html.parser')
+    model_detail_soup = soup_adv_text_html.find(id="tdo_31")
+    
+    if model_detail_soup == None:
+         adv_model = "NA"
+    else:
+        adv_model = model_detail_soup.get_text()
+    
+    model_list.append(adv_model)
