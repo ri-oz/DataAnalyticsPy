@@ -70,24 +70,16 @@ def processPages(urls):
     return results
 
 
-# %%
-
 url = "https://www.ss.lv/lv/real-estate/plots-and-lands/"
 
 
 # %%
 
 mylist = processPages(getUrlList(url))
-len(mylist)
-
-
-# %%
-
 
 dfmylist = pd.DataFrame(mylist)
 
 adw_list = dfmylist[0].tolist()
-# %%
 
 
 def get_ZemePrice(url):
@@ -106,14 +98,89 @@ def get_ZemePrice(url):
 
 
 
-# %%
+def get_ZemePielietojums(url):
+    
+    response = requests.get(url)
+    soup_adv_text_html = BeautifulSoup(response.text, 'html.parser')
+    pielietojums_detail_soup = soup_adv_text_html.find(id="tdo_228")
+    
+    if pielietojums_detail_soup == None:
+         adv_pielietojums = "NA"
+    else:
+        adv_pielietojums = pielietojums_detail_soup.get_text()
+        
+    return adv_pielietojums
 
-soup_adv_text_html = BeautifulSoup(response.text, 'html.parser')
-model_detail_soup = soup_adv_text_html.find(id="tdo_8")
-model_detail_soup.get_text()
 
 
-# %%
+def get_Zemeplatiba(url):
+    
+    response = requests.get(url)
+    soup_adv_text_html = BeautifulSoup(response.text, 'html.parser')
+    platiba_detail_soup = soup_adv_text_html.find(id="tdo_3")
+    
+    if platiba_detail_soup == None:
+         adv_platiba = "NA"
+    else:
+        adv_platiba = platiba_detail_soup.get_text()
+        
+    return adv_platiba
 
-get_ZemePrice("https://www.ss.lv/msg/lv/real-estate/plots-and-lands/dobele-and-reg/dobele/bbohx.html")
-# %%
+
+
+def get_ZemeKnumurs(url):
+    
+    response = requests.get(url)
+    soup_adv_text_html = BeautifulSoup(response.text, 'html.parser')
+    Knumurs_detail_soup = soup_adv_text_html.find(id="tdo_1631")
+    
+    if Knumurs_detail_soup == None:
+         adv_Knumurs = "NA"
+    else:
+        adv_Knumurs = Knumurs_detail_soup.get_text()
+        
+    return adv_Knumurs
+
+
+
+def get_ZemePilseta(url):
+    
+    response = requests.get(url)
+    soup_adv_text_html = BeautifulSoup(response.text, 'html.parser')
+    Pilseta_detail_soup = soup_adv_text_html.find(id="tdo_20")
+    
+    if Pilseta_detail_soup == None:
+         adv_Pilseta = "NA"
+    else:
+        adv_Pilseta = Pilseta_detail_soup.get_text()
+        
+    return adv_Pilseta
+
+
+
+def get_ZemeIela_nosaukums(url):
+    
+    response = requests.get(url)
+    soup_adv_text_html = BeautifulSoup(response.text, 'html.parser')
+    Iela_nosaukums_detail_soup = soup_adv_text_html.find(id="tdo_11")
+    
+    if Iela_nosaukums_detail_soup == None:
+         adv_Iela_nosaukums = "NA"
+    else:
+        adv_Iela_nosaukums = Iela_nosaukums_detail_soup.get_text()
+        
+    return adv_Iela_nosaukums
+
+
+
+def getAdvertDetails(url):
+    adv_detalas_dict = {'Pileta': get_ZemePilseta(url), 'Price':get_ZemePrice(url), 'Platiba': get_Zemeplatiba(url), 'Zemes Tips': get_ZemePielietojums(url), 'Lokacija': get_ZemeIela_nosaukums(url), 'K-Numurs':get_ZemeKnumurs(url)}
+    return adv_detalas_dict
+
+
+#%%
+
+
+
+getAdvertDetails("https://www.ss.lv/msg/lv/real-estate/plots-and-lands/dobele-and-reg/dobele/bbohx.html")
+
